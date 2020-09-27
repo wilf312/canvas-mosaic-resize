@@ -32,8 +32,8 @@ if ('ontouchstart' in document.documentElement) {
 
 let leftTop = {x: 0, y: 0}
 const touchStartAction = (event) => {
-  leftTop.x = parseInt(isTouch ? event.target.offsetLeft : event.offsetX, 10)
-  leftTop.y = parseInt(isTouch ? event.target.offsetTop : event.offsetY, 10)
+  leftTop.x = parseInt(isTouch ? event.changedTouches[0].clientX : event.offsetX, 10)
+  leftTop.y = parseInt(isTouch ? event.changedTouches[0].clientY : event.offsetY, 10)
 }
 let rightBottom = {x: 0, y: 0}
 const touchEndAction = (event) => {
