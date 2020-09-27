@@ -24,17 +24,21 @@ download.addEventListener('click', (event) => {
   link.click()
 })
 
+// イベントセット
+let isTouch = false
+if ('ontouchstart' in document.documentElement) {
+  isTouch = true
+}
 
 let leftTop = {x: 0, y: 0}
 const touchStartAction = (event) => {
-  leftTop.x = event.offsetX
-  leftTop.y = event.offsetY
+  leftTop.x = parseInt(isTouch ? event.target.offsetLeft : event.offsetX, 10)
+  leftTop.y = parseInt(isTouch ? event.target.offsetTop : event.offsetY, 10)
 }
 let rightBottom = {x: 0, y: 0}
 const touchEndAction = (event) => {
-  rightBottom.x = event.offsetX
-  rightBottom.y = event.offsetY
-
+  rightBottom.x = parseInt(isTouch ? event.changedTouches[0].clientX : event.offsetX, 10)
+  rightBottom.y = parseInt(isTouch ? event.changedTouches[0].clientY : event.offsetY, 10)
   mosaicPart(30, checkPosition(leftTop, rightBottom))
 }
 
@@ -94,8 +98,8 @@ const loadImage = (dataUrl) => {
 }
 // キャンバスのリサイズ
 const resizeCanvas = (width, height) => {
-  before.width = width
-  before.height = height
+  before.width = window.innerWidth > width ? width : window.innerWidth
+  before.height = window.innerHeight > height ? height : window.innerHeight - 200
 }
 
 const getContext = (_before = before) => {
@@ -140,10 +144,6 @@ const mosaicPart = (mosaicSize, position) =>{
       } else {
         h = position.h - y
       }
-
-      console.log(position)
-      console.log(w, h)
-
 
       // --- モザイクの色を計算する
       

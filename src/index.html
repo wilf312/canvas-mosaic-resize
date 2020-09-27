@@ -2,20 +2,27 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Document</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
   <style>
+    #app {
+      overflow: hidden;
+    }
     #download {
       display: none;
     }
   </style>
 </head>
 <body>
-  <input type="file" id="file">
-  <div><span id="message"></span></div>
-  <canvas id="before"></canvas>
-  <button type="button" id="download">download</button>
+
+  <div id="app">
+    <input type="file" id="file">
+    <div><span id="message"></span></div>
+    <canvas id="before"></canvas>
+    <button type="button" id="download">download</button>
+  </div>
+
   
   <script src="./mosaic.js"></script>
 </body>
