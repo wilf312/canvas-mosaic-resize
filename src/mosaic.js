@@ -37,19 +37,17 @@ const touchEndAction = (event) => {
   rightBottom.x = event.offsetX
   rightBottom.y = event.offsetY
 
-  // note: debug
-  // mosaicPart(20, {
-  //   x:50,
-  //   y:50,
-  //   w:100,
-  //   h:100,
-  // })
-  mosaicPart(30, {
-    x: leftTop.x,
-    y: leftTop.y,
-    w: rightBottom.x,
-    h: rightBottom.y
-  })
+  mosaicPart(30, checkPosition(leftTop, rightBottom))
+}
+
+// rightBottom が マイナス方向の場合にポジションを逆転させる
+const checkPosition = (leftTop, rightBottom) => {
+  return {
+    x: leftTop.x < rightBottom.x ? leftTop.x : rightBottom.x,
+    w: leftTop.x < rightBottom.x ? rightBottom.x :  leftTop.x,
+    y: leftTop.y < rightBottom.y ? leftTop.y : rightBottom.y,
+    h: leftTop.y < rightBottom.y ? rightBottom.y :  leftTop.y
+  }
 }
 
 before.addEventListener('touchstart', touchStartAction)
@@ -222,7 +220,7 @@ const mosaicPart = (mosaicSize, position) =>{
       // --- モザイクの色を計算する
       
       // wとhのブロックのrgbの色の合計を取得する
-      var r = g = b = 0
+      var r = g = b = a = 0
       for(var i= 0; i < w; i++) {
         for(var j = 0; j< h; j++) {
           const pixelIndex = ((y + j) * imgWidth + (x + i)) * 4
@@ -230,6 +228,7 @@ const mosaicPart = (mosaicSize, position) =>{
           r += srcData[pixelIndex + 0]
           g += srcData[pixelIndex + 1]
           b += srcData[pixelIndex + 2]
+          a += srcData[pixelIndex + 3]
         }
       }
 
@@ -238,6 +237,7 @@ const mosaicPart = (mosaicSize, position) =>{
       r = Math.round(r / pixelCount)
       g = Math.round(g/ pixelCount)
       b = Math.round(b / pixelCount)
+      a = Math.round(a / pixelCount)
 
 
       // モザイクをかける
@@ -248,13 +248,12 @@ const mosaicPart = (mosaicSize, position) =>{
           srcData[pixelIndex + 0] = r
           srcData[pixelIndex + 1] = g
           srcData[pixelIndex + 2] = b
-          srcData[pixelIndex + 3] = srcData[pixelIndex + 3]
+          srcData[pixelIndex + 3] = a
         }
       }
     }
   }
 
   // レンダリング
-  // after.clearRect(0,0, after.canvas.width, after.canvas.height)
   before.putImageData(imageData, 0, 0)
 }
