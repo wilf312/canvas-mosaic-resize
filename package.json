@@ -1,0 +1,14 @@
+{
+  "name": "canvas-mosaic-resize",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serve -l 55555 ./src/"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/wilf312/canvas-mosaic-resize.git",
+  "author": "OkadaGenya <g.okada.wilf+github@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^11.3.2"
+  }
+}
