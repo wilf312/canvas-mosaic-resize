@@ -4,6 +4,7 @@ const file = document.querySelector('#file')
 const message = document.querySelector('#message')
 const before = document.querySelector('#before')
 const after = document.querySelector('#after')
+const download = document.querySelector('#download')
 
 // ファイルの読み込み
 file.addEventListener('change', (event) => {
@@ -15,6 +16,14 @@ file.addEventListener('change', (event) => {
   } else {
     message.textContent = '複数ファイルの読み込みはできません'
   }
+})
+
+// canvasのダウンロード
+download.addEventListener('click', (event) => {
+  const link = document.createElement('a')
+  link.href = after.toDataURL('image/png')
+  link.download = 'test.png'
+  link.click()
 })
 
 // 画像読み込み時の処理
@@ -141,9 +150,7 @@ const mosaic = (mosaicSize) =>{
         }
       }
     }
-
   }
-
 
   // レンダリング
   after.clearRect(0,0, after.canvas.width, after.canvas.height)
