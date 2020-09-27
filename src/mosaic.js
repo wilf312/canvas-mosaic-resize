@@ -3,7 +3,6 @@
 const file = document.querySelector('#file')
 const message = document.querySelector('#message')
 const before = document.querySelector('#before')
-const after = document.querySelector('#after')
 const download = document.querySelector('#download')
 
 // ファイルの読み込み
@@ -67,11 +66,6 @@ const loadAction = async (file) => {
   const beforeContext = before.getContext('2d')
   beforeContext.drawImage(image, 0,0)
 
-  // afterの初期化
-  const afterContext = after.getContext('2d')
-  afterContext.clearRect(0,0, afterContext.canvas.width, afterContext.canvas.height)
-
-  mosaicAll(10)
 }
 
 // ファイルからdataURLを生成
@@ -98,15 +92,12 @@ const loadImage = (dataUrl) => {
 // キャンバスのリサイズ
 const resizeCanvas = (width, height) => {
   before.width = width
-  after.width = width
   before.height = height
-  after.height = height
 }
 
-const getContext = (_before = before, _after = after) => {
+const getContext = (_before = before) => {
   return {
-    before: _before.getContext('2d'),
-    after: _after.getContext('2d')
+    before: _before.getContext('2d')
   }
 }
 
@@ -122,74 +113,8 @@ const createImageData= (width, height) => {
   return imageData
 }
 
-// モザイク処理
-const mosaicAll = (mosaicSize) =>{
-  const {before, after} = getContext()
-  const imageData = before.getImageData(0,0, before.canvas.width, before.canvas.height)
-
-  var srcData = imageData.data
-  var imgWidth = imageData.width
-  var imgHeight = imageData.height
-  var _imageData = createImageData(imgWidth, imgHeight)
-  var data = _imageData.data
-
-  // モザイクサイズが mxnの場合 mxnごとにしょりする
-  for( var x = 0; x < imgWidth; x += mosaicSize) {
-    if (mosaicSize <= imgWidth - x) {
-      w = mosaicSize
-    } else {
-      w = imgWidth - x
-    }
-
-    for(var y  = 0; y < imgHeight; y += mosaicSize) {
-      if (mosaicSize <= imgHeight - y) {
-        h = mosaicSize
-      } else {
-        h = imgHeight - y
-      }
-
-
-      // --- モザイクの色を計算する
-      
-      // wとhのブロックのrgbの色の合計を取得する
-      var r = g = b = 0
-      for(var i= 0; i < w; i++) {
-        for(var j =0; j< h; j++) {
-          const pixelIndex = ((y + j) * imgWidth + (x + i)) * 4
-
-          r += srcData[pixelIndex + 0]
-          g += srcData[pixelIndex + 1]
-          b += srcData[pixelIndex + 2]
-        }
-      }
-
-      // 平均をとる
-      const pixelCount = w * h // ピクセル数
-      r = Math.round(r / pixelCount)
-      g = Math.round(g/ pixelCount)
-      b = Math.round(b / pixelCount)
-
-
-      // モザイクをかける
-      for(var i= 0; i < w; i++) {
-        for(var j =0; j< h; j++) {
-          const pixelIndex = ((y + j) * imgWidth + (x + i)) * 4
-
-          data[pixelIndex + 0] = r
-          data[pixelIndex + 1] = g
-          data[pixelIndex + 2] = b
-          data[pixelIndex + 3] = srcData[pixelIndex + 3]
-        }
-      }
-    }
-  }
-
-  // レンダリング
-  after.clearRect(0,0, after.canvas.width, after.canvas.height)
-  after.putImageData(_imageData, 0, 0)
-}
 const mosaicPart = (mosaicSize, position) =>{
-  const {before, after} = getContext()
+  const {before} = getContext()
   const imageData = before.getImageData(0,0, before.canvas.width, before.canvas.height)
 
   var srcData = imageData.data
