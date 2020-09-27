@@ -8,7 +8,6 @@ const download = document.querySelector('#download')
 // ファイルの読み込み
 file.addEventListener('change', (event) => {
   if (event.target.files.length === 1) {
-    message.textContent = '読み込み'
     loadAction(event.target.files[0])
   } else if (event.target.files.length === 0) {
     message.textContent = 'ファイルが選択されていません'
@@ -58,13 +57,17 @@ before.addEventListener('mouseup', touchEndAction)
 
 
 // 画像読み込み時の処理
-const loadAction = async (file) => {
-  const result = await loadFile(file)
+const loadAction = async (_file) => {
+  const result = await loadFile(_file)
   const image = await loadImage(result)
   resizeCanvas(image.width, image.height)
   // beforeのレンダリング
   const beforeContext = before.getContext('2d')
   beforeContext.drawImage(image, 0,0)
+
+  // 表示制御 ダウンロードボタンを表示 ファイルを非表示
+  download.style.display = 'block'
+  file.style.display = 'none'
 
 }
 

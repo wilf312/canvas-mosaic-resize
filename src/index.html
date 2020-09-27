@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+  <style>
+    #download {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <div><input type="file" id="file"></div>
-  <p><a id="download">download</a></p>
-  <div>message: <span id="message"></span></div>
+  <input type="file" id="file">
+  <div><span id="message"></span></div>
   <canvas id="before"></canvas>
+  <button type="button" id="download">download</button>
+  
   <script src="./mosaic.js"></script>
 </body>
 </html>
