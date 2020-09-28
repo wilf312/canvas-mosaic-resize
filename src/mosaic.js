@@ -30,16 +30,52 @@ if ('ontouchstart' in document.documentElement) {
   isTouch = true
 }
 
-let leftTop = {x: 0, y: 0}
+let leftTop = {x: null, y: null}
 const touchStartAction = (event) => {
-  leftTop.x = parseInt(isTouch ? event.changedTouches[0].clientX : event.offsetX, 10)
-  leftTop.y = parseInt(isTouch ? event.changedTouches[0].clientY : event.offsetY, 10)
+  if (isTouch) {
+    if (!event?.changedTouches[0]?.clientX || !event?.changedTouches[0]?.clientY) {
+      return
+    }
+    leftTop.x = parseInt(event.changedTouches[0].clientX, 10)
+    leftTop.y = parseInt(event.changedTouches[0].clientY, 10)
+  } else {
+    leftTop.x = parseInt(event.offsetX, 10)
+    leftTop.y = parseInt(event.offsetY, 10)
+  }
 }
-let rightBottom = {x: 0, y: 0}
+let rightBottom = {x: null, y: null}
 const touchEndAction = (event) => {
-  rightBottom.x = parseInt(isTouch ? event.changedTouches[0].clientX : event.offsetX, 10)
-  rightBottom.y = parseInt(isTouch ? event.changedTouches[0].clientY : event.offsetY, 10)
-  mosaicPart(30, checkPosition(leftTop, rightBottom))
+
+  if (isTouch) {
+    // 領域外で離れたらキャンセル
+    if (
+      !event?.changedTouches[0]?.clientX || 
+      !event?.changedTouches[0]?.clientY ||
+      before.width < event.changedTouches[0].clientX ||
+      before.height < event.changedTouches[0].clientY) {
+
+      // 初期化
+      leftTop.x = null
+      leftTop.y = null
+      rightBottom.x = null
+      rightBottom.y = null
+      return
+    }
+    rightBottom.x = parseInt(event.changedTouches[0].clientX, 10)
+    rightBottom.y = parseInt(event.changedTouches[0].clientY, 10)
+  } else {
+    rightBottom.x = parseInt(event.offsetX, 10)
+    rightBottom.y = parseInt(event.offsetY, 10)
+  }
+  if (leftTop.x !== null &&leftTop.y !== null &&rightBottom.y !== null &&rightBottom.y !== null) {
+    mosaicPart(30, checkPosition(leftTop, rightBottom))
+
+    // 初期化
+    leftTop.x = null
+    leftTop.y = null
+    rightBottom.x = null
+    rightBottom.y = null
+  }
 }
 
 // rightBottom が マイナス方向の場合にポジションを逆転させる
