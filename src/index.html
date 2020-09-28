@@ -6,7 +6,7 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
   <style>
-    #app {
+    body,html,#app {
       overflow: hidden;
     }
     #download {
@@ -17,7 +17,7 @@
 <body>
 
   <div id="app">
-    <input type="file" id="file">
+    <input type="file" id="file" accept="image/*">
     <div><span id="message"></span></div>
     <canvas id="before"></canvas>
     <button type="button" id="download">download</button>
