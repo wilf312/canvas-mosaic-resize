@@ -6,8 +6,18 @@
   <title>Document</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
   <style>
-    body,html,#app {
-      overflow: hidden;
+    html, body, #app {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #app {
+      padding-top: 58px;
+      padding-left: 10px;
+      padding-right: 10px;
+      box-sizing: border-box;
+      overflow: auto;
     }
     #download {
       display: none;
@@ -17,6 +27,14 @@
       right: 0;
       top: 0;
     }
+    #canvas-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 38px;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
@@ -25,7 +43,9 @@
     <input type="file" id="file" accept="image/*">
     <div><span id="message"></span></div>
     <canvas id="before"></canvas>
-    <button type="button" id="download">download</button>
+    <header id="canvas-header">
+      <button type="button" id="download" >download</button>
+    </header>
 
   </div>
   <a class="ribbon" href="https://github.com/wilf312/canvas-mosaic-resize" target="_blnak"><img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
