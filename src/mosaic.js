@@ -4,6 +4,7 @@ const file = document.querySelector('#file')
 const message = document.querySelector('#message')
 const before = document.querySelector('#before')
 const download = document.querySelector('#download')
+const canvasHeader = document.querySelector('#canvas-header')
 
 // ファイルの読み込み
 file.addEventListener('change', (event) => {
@@ -107,6 +108,7 @@ const loadAction = async (_file) => {
 
   // 表示制御 ダウンロードボタンを表示 ファイルを非表示
   download.style.display = 'block'
+  canvasHeader.style.display = 'block'
   file.style.display = 'none'
 
 }
@@ -134,8 +136,12 @@ const loadImage = (dataUrl) => {
 }
 // キャンバスのリサイズ
 const resizeCanvas = (width, height) => {
-  before.width = window.innerWidth > width ? width : window.innerWidth
-  before.height = window.innerHeight > height ? height : window.innerHeight - 200
+  // 画面サイズに合わせてリサイズ
+  // const _width = window.innerWidth > width ? width : window.innerWidth
+  // const _height = window.innerHeight > height ? height : window.innerHeight - 200
+
+  before.width = width
+  before.height = height
 }
 
 const getContext = (_before = before) => {
