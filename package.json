@@ -9,6 +9,6 @@
   "author": "OkadaGenya <g.okada.wilf+github@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "serve": "^11.3.2"
+    "serve": "^14.0.0"
   }
 }
